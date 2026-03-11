@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
-export type ChartTab = 'overview' | 'notes-orders' | 'history' | 'admin';
+export type ChartTab = 'overview' | 'bills' | 'notes-orders' | 'history' | 'admin';
 
 interface ChartTabsProps {
   activeTab: ChartTab;
@@ -10,6 +10,7 @@ interface ChartTabsProps {
 
 const tabs: { id: ChartTab; label: string }[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'bills', label: 'Bills' },
   { id: 'notes-orders', label: 'Notes & Orders' },
   { id: 'history', label: 'History' },
   { id: 'admin', label: 'Admin' },
