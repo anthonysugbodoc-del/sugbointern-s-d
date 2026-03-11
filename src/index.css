@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* SugboDoc Brand - Clinical Blue-Indigo */
+    --primary: 233 54% 52%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Background layers */
+    --background: 220 20% 97%;
+    --foreground: 222 47% 11%;
+    
+    /* Card surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    
+    /* Popover/Dropdown */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    
+    /* Secondary - Soft gray-blue */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 11%;
+    
+    /* Muted surfaces */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    
+    /* Accent - Lighter brand */
+    --accent: 233 54% 96%;
+    --accent-foreground: 233 54% 42%;
+    
+    /* Destructive/Critical */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Clinical Status Colors */
+    --status-admitted: 142 71% 45%;
+    --status-admitted-foreground: 0 0% 100%;
+    --status-admitted-bg: 142 76% 94%;
+    
+    --status-discharge: 38 92% 50%;
+    --status-discharge-foreground: 0 0% 100%;
+    --status-discharge-bg: 38 92% 95%;
+    
+    --status-discharged: 220 9% 46%;
+    --status-discharged-foreground: 0 0% 100%;
+    --status-discharged-bg: 220 14% 96%;
+    
+    /* Alert Colors */
+    --alert-critical: 0 84% 60%;
+    --alert-critical-bg: 0 86% 97%;
+    --alert-warning: 38 92% 50%;
+    --alert-warning-bg: 38 92% 95%;
+    --alert-info: 217 91% 60%;
+    --alert-info-bg: 217 91% 97%;
+    
+    /* Timeline Colors */
+    --timeline-note: 233 54% 52%;
+    --timeline-vitals: 142 71% 45%;
+    --timeline-order: 38 92% 50%;
+    --timeline-result: 280 65% 60%;
+    --timeline-diagnosis: 0 84% 60%;
+    --timeline-procedure: 200 80% 50%;
+    --timeline-imaging: 320 60% 55%;
+    
+    /* Borders & Inputs */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 233 54% 52%;
+    
+    --radius: 0.5rem;
+    
+    /* Sidebar/Nav Rail */
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 220 14% 96%;
+    --sidebar-primary: 233 54% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 18%;
+    --sidebar-accent-foreground: 220 14% 96%;
+    --sidebar-border: 222 47% 18%;
+    --sidebar-ring: 233 54% 52%;
+    
+    /* Panel specific */
+    --panel-header: 220 20% 98%;
+    --panel-border: 220 13% 91%;
+  }
+
+  .dark {
+    --primary: 233 54% 65%;
+    --primary-foreground: 222 47% 11%;
+    
+    --background: 222 47% 8%;
+    --foreground: 220 14% 96%;
+    
+    --card: 222 47% 11%;
+    --card-foreground: 220 14% 96%;
+    
+    --popover: 222 47% 11%;
+    --popover-foreground: 220 14% 96%;
+    
+    --secondary: 222 47% 15%;
+    --secondary-foreground: 220 14% 96%;
+    
+    --muted: 222 47% 15%;
+    --muted-foreground: 220 9% 60%;
+    
+    --accent: 233 54% 20%;
+    --accent-foreground: 233 54% 75%;
+    
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 222 47% 18%;
+    --input: 222 47% 18%;
+    --ring: 233 54% 65%;
+    
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 220 14% 96%;
+    --sidebar-accent: 222 47% 12%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Custom scrollbar for clinical UI */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+}
+
+@layer utilities {
+  /* Panel transitions */
+  .panel-transition {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  /* Clinical status badges */
+  .status-admitted {
+    @apply bg-[hsl(var(--status-admitted-bg))] text-[hsl(var(--status-admitted))] border-[hsl(var(--status-admitted))];
+  }
+  
+  .status-discharge {
+    @apply bg-[hsl(var(--status-discharge-bg))] text-[hsl(var(--status-discharge))] border-[hsl(var(--status-discharge))];
+  }
+  
+  .status-discharged {
+    @apply bg-[hsl(var(--status-discharged-bg))] text-[hsl(var(--status-discharged))] border-[hsl(var(--status-discharged))];
+  }
+  
+  /* Alert styles */
+  .alert-critical {
+    @apply bg-[hsl(var(--alert-critical-bg))] border-[hsl(var(--alert-critical))] text-[hsl(var(--alert-critical))];
+  }
+  
+  .alert-warning {
+    @apply bg-[hsl(var(--alert-warning-bg))] border-[hsl(var(--alert-warning))] text-[hsl(var(--alert-warning))];
+  }
+  
+  /* Timeline dot colors */
+  .timeline-dot-note { @apply bg-[hsl(var(--timeline-note))]; }
+  .timeline-dot-vitals { @apply bg-[hsl(var(--timeline-vitals))]; }
+  .timeline-dot-order { @apply bg-[hsl(var(--timeline-order))]; }
+  .timeline-dot-result { @apply bg-[hsl(var(--timeline-result))]; }
+  .timeline-dot-diagnosis { @apply bg-[hsl(var(--timeline-diagnosis))]; }
+  .timeline-dot-procedure { @apply bg-[hsl(var(--timeline-procedure))]; }
+  .timeline-dot-imaging { @apply bg-[hsl(var(--timeline-imaging))]; }
+}
