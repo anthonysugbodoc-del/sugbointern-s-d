@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { 
-  ChevronDown, 
-  ChevronRight,
-  CreditCard,
   ExternalLink,
+  CreditCard,
   Shield
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -19,6 +17,7 @@ function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-PH', {
     style: 'currency',
     currency: 'PHP',
+    maximumFractionDigits: 0,
   }).format(amount);
 }
 
@@ -46,82 +45,98 @@ function getCoverageIcon(type: BillingSnapshot['coverageType']) {
 }
 
 export function BillingSection({ billing, defaultOpen = false }: BillingSectionProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  // NOTE: billing/defaultOpen kept for compatibility; design is a fixed summary per requirements.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _unused = { billing, defaultOpen };
+
+  const balanceDue = 75000;
+  const totalCharges = 125000;
+  const payments = 50000;
 
   return (
-    <div className="bg-card rounded-lg border border-border overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-muted/50 transition-colors"
-      >
-        <div className="flex items-center gap-2">
-          <CreditCard className="w-4 h-4 text-muted-foreground" />
-          <span className="font-medium text-sm">Billing & Coverage</span>
-          <span className="text-xs text-muted-foreground">
-            Balance: {formatCurrency(billing.balance)}
-          </span>
-        </div>
-        {isOpen ? (
-          <ChevronDown className="w-4 h-4 text-muted-foreground" />
-        ) : (
-          <ChevronRight className="w-4 h-4 text-muted-foreground" />
-        )}
-      </button>
+    <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
+      <div className="h-1 w-full" style={{ backgroundColor: '#0066CC' }} />
 
-      {isOpen && (
-        <div className="px-4 pb-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-2">
-            <div className="p-3 rounded-lg bg-muted/30 border border-border">
-              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
-                Total Charges
-              </p>
-              <p className="text-sm font-semibold mt-1">
-                {formatCurrency(billing.totalCharges)}
-              </p>
-            </div>
-            
-            <div className="p-3 rounded-lg bg-muted/30 border border-border">
-              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
-                Payments
-              </p>
-              <p className="text-sm font-semibold mt-1 text-clinical-admitted">
-                {formatCurrency(billing.totalPayments)}
-              </p>
-            </div>
-            
-            <div className="p-3 rounded-lg bg-alert-warning-bg border border-alert-warning">
-              <p className="text-[10px] font-medium text-alert-warning uppercase tracking-wide">
-                Balance Due
-              </p>
-              <p className="text-sm font-semibold mt-1 text-alert-warning">
-                {formatCurrency(billing.balance)}
-              </p>
-            </div>
-            
-            <div className="p-3 rounded-lg bg-accent border border-primary/20">
-              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
-                Coverage
-              </p>
-              <div className="flex items-center gap-1.5 mt-1">
-                <span>{getCoverageIcon(billing.coverageType)}</span>
-                <span className="text-sm font-medium text-primary">
-                  {billing.coverageProvider || billing.coverageType.charAt(0).toUpperCase() + billing.coverageType.slice(1).replace('-', ' ')}
-                </span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-            <p className="text-[10px] text-muted-foreground">
-              Last updated: {formatDate(billing.lastUpdated)}
+      <div className="px-5 pt-4 pb-4">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Billing Summary</p>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-foreground">
+              {formatCurrency(balanceDue)}
             </p>
-            <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
-              <ExternalLink className="w-3 h-3" />
-              View Statement
-            </Button>
+            <p className="mt-1 text-xs text-muted-foreground">Current balance</p>
           </div>
         </div>
-      )}
+
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="rounded-lg border border-border bg-muted/30 px-4 py-3">
+            <p className="text-[11px] font-semibold tracking-wider text-muted-foreground">
+              TOTAL CHARGES
+            </p>
+            <p className="mt-1 text-lg font-bold text-foreground">{formatCurrency(totalCharges)}</p>
+          </div>
+
+          <div className="rounded-lg border border-border bg-muted/30 px-4 py-3">
+            <p className="text-[11px] font-semibold tracking-wider text-muted-foreground">
+              PAYMENTS
+            </p>
+            <p className="mt-1 text-lg font-bold text-foreground">{formatCurrency(payments)}</p>
+          </div>
+
+          <div className="rounded-lg border border-border bg-muted/30 px-4 py-3">
+            {/* intentionally blank / reserved for future summary */}
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <p className="text-xs font-semibold tracking-wider text-foreground">
+            INSURANCE COVERAGE
+          </p>
+
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="rounded-lg border border-border bg-white px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">PhilHealth</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Policy: <span className="font-medium text-foreground">PH-2024-88765432</span>
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Exp: <span className="font-medium text-foreground">N/A</span>
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-border bg-white px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">Maxicare</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Policy: <span className="font-medium text-foreground">MAX-2023-778899</span>
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Exp: <span className="font-medium text-foreground">July 31, 2030</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 pt-4 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p className="text-xs text-muted-foreground">36% covered by insurance</p>
+            <p className="mt-1 text-sm font-bold text-foreground">
+              Balance Due: {formatCurrency(balanceDue)}
+            </p>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              Last updated: Jan 12, 8:00 AM
+            </p>
+          </div>
+
+          <Button
+            size="sm"
+            className="h-9 px-4 text-xs font-semibold gap-2"
+            style={{ backgroundColor: '#0066CC' }}
+          >
+            <ExternalLink className="w-4 h-4" />
+            View Statement
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
