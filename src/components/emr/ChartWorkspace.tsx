@@ -95,6 +95,18 @@ export function ChartWorkspace({ patient, focusMode, onToggleFocusMode }: ChartW
           </div>
         )}
 
+        {activeTab === 'bills' && (
+          <div className="max-w-4xl">
+            <div className="bg-card rounded-lg border border-border p-6">
+              <h3 className="font-semibold text-lg mb-4">Notes & Orders</h3>
+              <p className="text-muted-foreground text-sm">
+              This tab provides a comprehensive view of all billing statements and invoices, 
+              featuring advanced filtering, search, and financial tracking tools.
+              </p>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'notes-orders' && (
           <div className="max-w-4xl">
             <div className="bg-card rounded-lg border border-border p-6">
